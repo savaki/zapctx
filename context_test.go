@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package zapx_test
+package zapctx_test
 
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"strings"
 	"testing"
 
-	"github.com/savaki/zapx"
+	"github.com/savaki/zapctx"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -48,11 +49,11 @@ func TestContext(t *testing.T) {
 			core   = zapcore.NewCore(zapcore.NewConsoleEncoder(config), w, zapcore.InfoLevel)
 			logger = zap.New(core)
 			parent = context.Background()
-			ctx    = zapx.NewContext(parent, logger)
+			ctx    = zapctx.NewContext(parent, logger)
 			want   = "boom"
 		)
 
-		zapx.FromContext(ctx).Info(want)
+		zapctx.FromContext(ctx).Info(want)
 		if !strings.Contains(got.String(), want) {
 			t.Fatalf("got %v; wanted string to contain %v", got, want)
 		}
@@ -60,6 +61,7 @@ func TestContext(t *testing.T) {
 
 	t.Run("nop", func(t *testing.T) {
 		ctx := context.Background()
-		zapx.FromContext(ctx).Info("boom")
+		zapctx.FromContext(ctx).Info("boom")
+		fmt.Printf("%#v\n", zapctx.FromContext(ctx))
 	})
 }
