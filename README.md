@@ -6,18 +6,18 @@ context wrapper for uber's zap library
 
 ```go
 parent := context.Background()
-ctx := zapx.NewContext(parent, logger)
+ctx := zapctx.NewContext(parent, logger)
 ```
 
 #### Retrieve logger from Context
 
 ```go
-logger := zapx.FromContext(ctx)
+logger := zapctx.FromContext(ctx)
 logger.Info("blah")
 ```
 
 or used directly
 
 ```go
-zapx.FromContext(ctx).Info("blah")
+zapctx.FromContext(ctx).Info("blah")
 ```
