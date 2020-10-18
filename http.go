@@ -20,6 +20,15 @@ func WithFactory(fn func(req *http.Request) *zap.Logger) Option {
 	}
 }
 
+// WithLogger returns a specified logging
+func WithLogger(logger *zap.Logger) Option {
+	return func(o *options) {
+		o.makeLogger = func(req *http.Request) *zap.Logger {
+			return logger
+		}
+	}
+}
+
 // Middleware provides web middleware to inject a logger into the request context
 func Middleware(opts ...Option) func(h http.Handler) http.Handler {
 	nop := zap.NewNop()
